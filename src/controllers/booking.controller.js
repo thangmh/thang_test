@@ -86,6 +86,15 @@ module.exports.updateBooking = async (req, res) => {
           ErrorMessage: "Booking is not exist",
         });
         return;
+      } else {
+        if (
+          booking.stime_start <= new Date().setHours(new Date().GetDate + 0.5)
+        ) {
+          res.status(400).json({
+            ErrorMessage: "Can't delete after 30 minutes",
+          });
+          return;
+        }
       }
     });
 
@@ -117,11 +126,12 @@ module.exports.updateBooking = async (req, res) => {
   }
 
   CheckCase(booking_type_id, user_id, time_start, hour_time);
+  console.log(time_start);
   booking
     .update(
       {
         booking_type_id: booking_type_id,
-        time_start: time_start,
+        time_start: new Date(time_start),
         user_id: user_id,
         time_type: time_type,
         hour_time: hour_time,
@@ -132,10 +142,10 @@ module.exports.updateBooking = async (req, res) => {
         },
       }
     )
-    .then((booking) => {
-      res.status(201).send(booking);
-      return;
+    .then(async () => {
+      return await booking.findOne({ where: { id: id } })
     })
+    .then((booking) => res.status(200).send(booking))
     .catch((err) => {
       console.log(err);
       res.status(503).json({
