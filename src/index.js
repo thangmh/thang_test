@@ -10,7 +10,7 @@ const apiRoutes = require("./routes/apiRoutes");
 app.use("/api", apiRoutes);
 
 db.sequelize.sync().then(() => {
-    app.listen(PORT, () =>{
-        console.log(`listening on : localhost:${PORT}`);
-    });
+  module.exports = app.listen(PORT, () => {
+    console.log(`listening on : localhost:${PORT}`);
+  });
 });

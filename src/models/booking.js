@@ -13,14 +13,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     time_type: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     hour_time: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      defaultValue: 0
-  }
+      defaultValue: 0,
+    },
+    deleted_date: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    }
   });
   return Booking;
 };
